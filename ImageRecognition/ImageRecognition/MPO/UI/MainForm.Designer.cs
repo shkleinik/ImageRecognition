@@ -57,11 +57,11 @@ namespace MPO.UI
             this.contextMenuStripToChessRange = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buildHistogrammToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.длинаПримитивалаба3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.privmitivesLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
             this.applyMedianFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
+            this.commonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.angleDiagramm = new MPO.Controls.AngleDiagramm();
             this.histogramm = new MPO.Controls.HistogrammControl();
             this.mainMenuStrip.SuspendLayout();
@@ -82,9 +82,9 @@ namespace MPO.UI
             // mainMenuStrip
             // 
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                                        this.fileToolStripMenuItem,
-                                                                                        this.imageToolStripMenuItem,
-                                                                                        this.gridToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.imageToolStripMenuItem,
+            this.gridToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new System.Drawing.Size(1126, 24);
@@ -94,11 +94,11 @@ namespace MPO.UI
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                                                           this.loadToolStripMenuItem,
-                                                                                                           this.saveToolStripMenuItem,
-                                                                                                           this.saveAsToolStripMenuItem,
-                                                                                                           this.toolStripSeparator1,
-                                                                                                           this.exitToolStripMenuItem});
+            this.loadToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -106,9 +106,9 @@ namespace MPO.UI
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                                                           this.monoPictureToolStripMenuItem,
-                                                                                                           this.halfToneToolStripMenuItem,
-                                                                                                           this.coloredToolStripMenuItem});
+            this.monoPictureToolStripMenuItem,
+            this.halfToneToolStripMenuItem,
+            this.coloredToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.loadToolStripMenuItem.Text = "Load Picture";
@@ -163,8 +163,8 @@ namespace MPO.UI
             // imageToolStripMenuItem
             // 
             this.imageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                                                            this.ImageToHalfToneGridToolStripMenuItem,
-                                                                                                            this.colorToHalfToneToolStripMenuItem});
+            this.ImageToHalfToneGridToolStripMenuItem,
+            this.colorToHalfToneToolStripMenuItem});
             this.imageToolStripMenuItem.Name = "imageToolStripMenuItem";
             this.imageToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.imageToolStripMenuItem.Text = "Image";
@@ -185,9 +185,9 @@ namespace MPO.UI
             // gridToolStripMenuItem
             // 
             this.gridToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                                                           this.GridtoImageToolStripMenuItem,
-                                                                                                           this.GridToHalfToneToolStripMenuItem,
-                                                                                                           this.coloredToHalfToneToolStripMenuItem});
+            this.GridtoImageToolStripMenuItem,
+            this.GridToHalfToneToolStripMenuItem,
+            this.coloredToHalfToneToolStripMenuItem});
             this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
             this.gridToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.gridToolStripMenuItem.Text = "Grid";
@@ -254,13 +254,13 @@ namespace MPO.UI
             // contextMenuStripToChessRange
             // 
             this.contextMenuStripToChessRange.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                                                                                                          this.toToolStripMenuItem,
-                                                                                                          this.buildHistogrammToolStripMenuItem,
-                                                                                                          this.длинаПримитивалаба3ToolStripMenuItem,
-                                                                                                          this.filtrateToolStripMenuItem,
-                                                                                                          this.applyMedianFilterToolStripMenuItem});
+            this.toToolStripMenuItem,
+            this.buildHistogrammToolStripMenuItem,
+            this.privmitivesLengthToolStripMenuItem,
+            this.filtrateToolStripMenuItem,
+            this.applyMedianFilterToolStripMenuItem});
             this.contextMenuStripToChessRange.Name = "contextMenuStripToChessRange";
-            this.contextMenuStripToChessRange.Size = new System.Drawing.Size(243, 136);
+            this.contextMenuStripToChessRange.Size = new System.Drawing.Size(243, 114);
             this.contextMenuStripToChessRange.Text = "To Chess Range";
             this.contextMenuStripToChessRange.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripToChessRange_Opening);
             // 
@@ -278,12 +278,12 @@ namespace MPO.UI
             this.buildHistogrammToolStripMenuItem.Text = "Build Histogramm";
             this.buildHistogrammToolStripMenuItem.Click += new System.EventHandler(this.buildHistogrammToolStripMenuItem_Click);
             // 
-            // длинаПримитивалаба3ToolStripMenuItem
+            // privmitivesLengthToolStripMenuItem
             // 
-            this.длинаПримитивалаба3ToolStripMenuItem.Name = "длинаПримитивалаба3ToolStripMenuItem";
-            this.длинаПримитивалаба3ToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.длинаПримитивалаба3ToolStripMenuItem.Text = "Длина примитива (лаба3)";
-            this.длинаПримитивалаба3ToolStripMenuItem.Click += new System.EventHandler(this.primitiveLengthToolStripMenuItem_Click);
+            this.privmitivesLengthToolStripMenuItem.Name = "privmitivesLengthToolStripMenuItem";
+            this.privmitivesLengthToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
+            this.privmitivesLengthToolStripMenuItem.Text = "Длина примитива (лаба3)";
+            this.privmitivesLengthToolStripMenuItem.Click += new System.EventHandler(this.primitiveLengthToolStripMenuItem_Click);
             // 
             // filtrateToolStripMenuItem
             // 
@@ -291,6 +291,13 @@ namespace MPO.UI
             this.filtrateToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
             this.filtrateToolStripMenuItem.Text = "Enter extension filter";
             this.filtrateToolStripMenuItem.Click += new System.EventHandler(this.OnFilterClick);
+            // 
+            // applyMedianFilterToolStripMenuItem
+            // 
+            this.applyMedianFilterToolStripMenuItem.Name = "applyMedianFilterToolStripMenuItem";
+            this.applyMedianFilterToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
+            this.applyMedianFilterToolStripMenuItem.Text = "Apply median filter";
+            this.applyMedianFilterToolStripMenuItem.Click += new System.EventHandler(this.OnApplyMedianFilter);
             // 
             // pictureBoxPreview
             // 
@@ -302,12 +309,13 @@ namespace MPO.UI
             this.pictureBoxPreview.TabIndex = 4;
             this.pictureBoxPreview.TabStop = false;
             // 
-            // applyMedianFilterToolStripMenuItem
+            // commonToolTip
             // 
-            this.applyMedianFilterToolStripMenuItem.Name = "applyMedianFilterToolStripMenuItem";
-            this.applyMedianFilterToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
-            this.applyMedianFilterToolStripMenuItem.Text = "Apply median filter";
-            this.applyMedianFilterToolStripMenuItem.Click += new System.EventHandler(this.OnApplyMedianFilter);
+            this.commonToolTip.AutoPopDelay = 5000;
+            this.commonToolTip.InitialDelay = 100;
+            this.commonToolTip.ReshowDelay = 100;
+            this.commonToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.commonToolTip.ToolTipTitle = BRAND_MESSAGE;
             // 
             // angleDiagramm
             // 
@@ -377,15 +385,15 @@ namespace MPO.UI
         private System.Windows.Forms.ToolStripMenuItem ImageToHalfToneGridToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripToChessRange;
         private System.Windows.Forms.ToolStripMenuItem toToolStripMenuItem;
-        private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.ToolStripMenuItem colorToHalfToneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem coloredToHalfToneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buildHistogrammToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem длинаПримитивалаба3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem privmitivesLengthToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBoxPreview;
         private AngleDiagramm angleDiagramm;
         private HistogrammControl histogramm;
         private System.Windows.Forms.ToolStripMenuItem filtrateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applyMedianFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolTip commonToolTip;
     }
 }

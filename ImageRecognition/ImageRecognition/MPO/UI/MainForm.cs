@@ -14,8 +14,9 @@ namespace MPO.UI
     public partial class MainForm : Form
     {
         #region Constants
-        private const string MESSAGE_BOX_CAPTION = "Pasha & Max informs you that . . .";
+        private const string BRAND_MESSAGE = "Pasha & Max informs you that . . .";
         private const string IMAGE_ALREADE_LOADED_MESSAGE = "The image you are trying to load had been already laoded";
+        private const string IMAGE_PANELS_TOOL_TIP = "You can press the left mouse button to view pictures GridView or Middle to remove picture from panel";
         #endregion
 
         #region Fields
@@ -106,21 +107,21 @@ namespace MPO.UI
                     case imageType.colored:
                         toToolStripMenuItem.Enabled = false;
                         buildHistogrammToolStripMenuItem.Enabled = false;
-                        длинаПримитивалаба3ToolStripMenuItem.Enabled = false;
+                        privmitivesLengthToolStripMenuItem.Enabled = false;
                         filtrateToolStripMenuItem.Enabled = false;
                         applyMedianFilterToolStripMenuItem.Enabled = false;
                         break;
                     case imageType.mono:
                         toToolStripMenuItem.Enabled = true;
                         buildHistogrammToolStripMenuItem.Enabled = true;
-                        длинаПримитивалаба3ToolStripMenuItem.Enabled = true;
+                        privmitivesLengthToolStripMenuItem.Enabled = true;
                         filtrateToolStripMenuItem.Enabled = true;
                         applyMedianFilterToolStripMenuItem.Enabled = true;
                         break;
                     case imageType.tone:
                         toToolStripMenuItem.Enabled = false;
                         buildHistogrammToolStripMenuItem.Enabled = true;
-                        длинаПримитивалаба3ToolStripMenuItem.Enabled = false;
+                        privmitivesLengthToolStripMenuItem.Enabled = false;
                         filtrateToolStripMenuItem.Enabled = false;
                         applyMedianFilterToolStripMenuItem.Enabled = true;
                         break;
@@ -230,7 +231,7 @@ namespace MPO.UI
                 {
                     if (((PictureBox) control).ImageLocation == filename)
                     {
-                        MessageBox.Show(IMAGE_ALREADE_LOADED_MESSAGE,MESSAGE_BOX_CAPTION, MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        MessageBox.Show(IMAGE_ALREADE_LOADED_MESSAGE,BRAND_MESSAGE, MessageBoxButtons.OK,MessageBoxIcon.Information);
                         return;
                     }
                         
@@ -245,10 +246,7 @@ namespace MPO.UI
             pictureBox.MouseClick += OnClickPicture;
             pictureBox.Load(filename);
             pictureBox.Tag = imageT;
-
-
-            if (panelImages.Controls.Contains(pictureBox))
-                return;
+            commonToolTip.SetToolTip(pictureBox, IMAGE_PANELS_TOOL_TIP);
             panelImages.Controls.Add(pictureBox);
             pictureBox.Show();
             var label = new Label();
