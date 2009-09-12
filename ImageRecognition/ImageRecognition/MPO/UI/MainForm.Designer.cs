@@ -34,7 +34,7 @@ namespace MPO.UI
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelImages = new System.Windows.Forms.Panel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monoPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,7 +64,7 @@ namespace MPO.UI
             this.applyMedianFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.angleDiagramm = new MPO.Controls.AngleDiagramm();
             this.histogramm = new MPO.Controls.HistogrammControl();
-            this.menuStrip1.SuspendLayout();
+            this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStripToChessRange.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).BeginInit();
@@ -79,17 +79,17 @@ namespace MPO.UI
             this.panelImages.Size = new System.Drawing.Size(1126, 136);
             this.panelImages.TabIndex = 0;
             // 
-            // menuStrip1
+            // mainMenuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                                                                                         this.fileToolStripMenuItem,
                                                                                         this.imageToolStripMenuItem,
                                                                                         this.gridToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1126, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuStrip.Name = "mainMenuStrip";
+            this.mainMenuStrip.Size = new System.Drawing.Size(1126, 24);
+            this.mainMenuStrip.TabIndex = 1;
+            this.mainMenuStrip.Text = "mainMenuStrip";
             // 
             // fileToolStripMenuItem
             // 
@@ -283,7 +283,7 @@ namespace MPO.UI
             this.длинаПримитивалаба3ToolStripMenuItem.Name = "длинаПримитивалаба3ToolStripMenuItem";
             this.длинаПримитивалаба3ToolStripMenuItem.Size = new System.Drawing.Size(242, 22);
             this.длинаПримитивалаба3ToolStripMenuItem.Text = "Длина примитива (лаба3)";
-            this.длинаПримитивалаба3ToolStripMenuItem.Click += new System.EventHandler(this.длинаПримитивалаба3ToolStripMenuItem_Click);
+            this.длинаПримитивалаба3ToolStripMenuItem.Click += new System.EventHandler(this.primitiveLengthToolStripMenuItem_Click);
             // 
             // filtrateToolStripMenuItem
             // 
@@ -337,15 +337,15 @@ namespace MPO.UI
             this.Controls.Add(this.angleDiagramm);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panelImages);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.mainMenuStrip);
             this.Controls.Add(this.histogramm);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "MainForm";
             this.Text = "Main Form";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainMenuStrip.ResumeLayout(false);
+            this.mainMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.contextMenuStripToChessRange.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPreview)).EndInit();
@@ -357,7 +357,7 @@ namespace MPO.UI
         #endregion
 
         private System.Windows.Forms.Panel panelImages;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;

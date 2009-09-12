@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using MPO.Grids;
 using MPO.UI;
 
 namespace MPO.Grids
@@ -137,8 +136,7 @@ namespace MPO.Grids
                 }
             Visible = true;
         }
-
-
+        
         public override BaseGrid ToHalfToneGrid(MainForm mainForm)
         {
             int imageSize = mainForm.imageSize;

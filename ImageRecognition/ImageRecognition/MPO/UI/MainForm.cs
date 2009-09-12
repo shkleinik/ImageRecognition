@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using MPO.Grids;
-using MPO.UI;
 
 //podpis picture
 // check dispose
@@ -14,6 +13,12 @@ namespace MPO.UI
 {
     public partial class MainForm : Form
     {
+        #region Constants
+        private const string MESSAGE_BOX_CAPTION = "Pasha & Max informs you that . . .";
+        private const string IMAGE_ALREADE_LOADED_MESSAGE = "The image you are trying to load had been already laoded";
+        #endregion
+
+        #region Fields
         private static int[,] AuxiliaryArray;
         private BaseGrid currentGrid;
         public int imageSize = 50;
@@ -22,6 +27,8 @@ namespace MPO.UI
         public int multy = 5;
         private Bitmap originalBitmap;
         private string selectedImageFile;
+
+        #endregion
 
         public MainForm()
         {
@@ -121,7 +128,7 @@ namespace MPO.UI
             }
         }
 
-        private void длинаПримитивалаба3ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void primitiveLengthToolStripMenuItem_Click(object sender, EventArgs e)
         {
             imageSize = 20;
             toChessRangeToolStripMenuItem_Click(sender, e);
@@ -215,16 +222,33 @@ namespace MPO.UI
             }
         }
 
-
         private void LoadPicture(string filename, imageType imageT)
         {
+            foreach (Control control in panelImages.Controls)
+            {
+                if (control.GetType() == typeof(PictureBox))
+                {
+                    if (((PictureBox) control).ImageLocation == filename)
+                    {
+                        MessageBox.Show(IMAGE_ALREADE_LOADED_MESSAGE,MESSAGE_BOX_CAPTION, MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        return;
+                    }
+                        
+                }
+            }
+            
+            
             var pictureBox = new PictureBox();
             int num = GetNumberOfPictures();
             pictureBox.SetBounds(15 + num * 115, 15, 100, 100);
             pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox.Click += OnClickPicture;
+            pictureBox.MouseClick += OnClickPicture;
             pictureBox.Load(filename);
             pictureBox.Tag = imageT;
+
+
+            if (panelImages.Controls.Contains(pictureBox))
+                return;
             panelImages.Controls.Add(pictureBox);
             pictureBox.Show();
             var label = new Label();
@@ -410,18 +434,54 @@ namespace MPO.UI
 
         #region ImagePanel
 
-        private void OnClickPicture(object sender, EventArgs e)
+        private void OnClickPicture(object sender, MouseEventArgs e)
         {
-            var clickedPictureBox = (PictureBox)sender;
-            originalBitmap = new Bitmap(clickedPictureBox.Image);
-            imageSize = clickedPictureBox.Image.Width;
-            ZoomOriginalBitmap((imageType)clickedPictureBox.Tag);
 
-            RemoveCurrentGrid();
-            ImageToGrid(clickedPictureBox);
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    var clickedPictureBox = (PictureBox)sender;
+                    originalBitmap = new Bitmap(clickedPictureBox.Image);
+                    imageSize = clickedPictureBox.Image.Width;
+                    ZoomOriginalBitmap((imageType)clickedPictureBox.Tag);
 
-            ActivateMenu(state.image, true);
-            ActivateMenu(state.grid, true);
+                    RemoveCurrentGrid();
+                    ImageToGrid(clickedPictureBox);
+
+                    ActivateMenu(state.image, true);
+                    ActivateMenu(state.grid, true);
+                    break;
+                case MouseButtons.Middle:
+
+
+                    if (!panelImages.Controls.Contains((PictureBox)sender))
+                        return;
+
+                    var indexOfLabel = panelImages.Controls.IndexOf((PictureBox)sender) + 1;
+                    panelImages.Controls.RemoveAt(indexOfLabel);
+                    panelImages.Controls.Remove((PictureBox)sender);
+
+                    var controlsCounter = 0;
+                    foreach (Control control in panelImages.Controls)
+                    {
+                        if (control.GetType() == typeof(PictureBox))
+                            control.SetBounds(15 + controlsCounter * 115, 15, 100, 100);
+                        if (control.GetType() == typeof(Label))
+                        {
+                            control.SetBounds(15 + controlsCounter * 115, 120, 100, 15);
+                            controlsCounter++;
+                        }
+                    }
+
+                    if (GetNumberOfPictures() == 0)
+                    {
+                        RemoveCurrentGrid();
+                        pictureBoxPreview.Image = null;
+                    }
+
+                    break;
+
+            }
         }
 
         private void RemoveCurrentGrid()
