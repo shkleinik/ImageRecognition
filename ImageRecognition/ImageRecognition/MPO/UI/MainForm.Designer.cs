@@ -46,7 +46,6 @@ namespace MPO.UI
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageToHalfToneGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colorToHalfToneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GridtoImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GridToHalfToneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -163,8 +162,7 @@ namespace MPO.UI
             // imageToolStripMenuItem
             // 
             this.imageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ImageToHalfToneGridToolStripMenuItem,
-            this.colorToHalfToneToolStripMenuItem});
+            this.ImageToHalfToneGridToolStripMenuItem});
             this.imageToolStripMenuItem.Name = "imageToolStripMenuItem";
             this.imageToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.imageToolStripMenuItem.Text = "Image";
@@ -172,15 +170,9 @@ namespace MPO.UI
             // ImageToHalfToneGridToolStripMenuItem
             // 
             this.ImageToHalfToneGridToolStripMenuItem.Name = "ImageToHalfToneGridToolStripMenuItem";
-            this.ImageToHalfToneGridToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.ImageToHalfToneGridToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.ImageToHalfToneGridToolStripMenuItem.Text = "To HalfTone";
             this.ImageToHalfToneGridToolStripMenuItem.Click += new System.EventHandler(this.ImageToHalfTone);
-            // 
-            // colorToHalfToneToolStripMenuItem
-            // 
-            this.colorToHalfToneToolStripMenuItem.Name = "colorToHalfToneToolStripMenuItem";
-            this.colorToHalfToneToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.colorToHalfToneToolStripMenuItem.Text = "ColorToHalfTone";
             // 
             // gridToolStripMenuItem
             // 
@@ -315,7 +307,6 @@ namespace MPO.UI
             this.commonToolTip.InitialDelay = 100;
             this.commonToolTip.ReshowDelay = 100;
             this.commonToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.commonToolTip.ToolTipTitle = BRAND_MESSAGE;
             // 
             // angleDiagramm
             // 
@@ -385,7 +376,6 @@ namespace MPO.UI
         private System.Windows.Forms.ToolStripMenuItem ImageToHalfToneGridToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripToChessRange;
         private System.Windows.Forms.ToolStripMenuItem toToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem colorToHalfToneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem coloredToHalfToneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buildHistogrammToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem privmitivesLengthToolStripMenuItem;

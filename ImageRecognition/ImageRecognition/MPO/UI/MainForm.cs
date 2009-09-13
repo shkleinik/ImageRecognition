@@ -35,6 +35,7 @@ namespace MPO.UI
         {
             InitializeComponent();
             angleDiagramm.tbAngle.ValueChanged += OnLiniarScaling;
+            commonToolTip.ToolTipTitle = BRAND_MESSAGE;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
