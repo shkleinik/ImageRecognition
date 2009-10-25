@@ -683,6 +683,22 @@ namespace MPO.UI
             AuxiliaryArray = GetAuxiliaryArray(currentGrid);
             GridToImageToolStripMenuItem_Click(this, null);
         }
+
+        private void miZondMethod_Click(object sender, EventArgs e)
+        {
+            ZondForm zondForm = new ZondForm();
+            zondForm.Show();
+        }
+
+        private void miCheckZongeSun_Click(object sender, EventArgs e)
+        {            
+            currentGrid.ImageToGrid(originalBitmap);
+            Controls.Remove(currentGrid);
+            currentGrid = ((MonoGrid)currentGrid).CheckZongeSun(this);
+            Controls.Add(currentGrid);
+            pictureBoxPreview.Tag = imageType.mono;
+            GridToImageToolStripMenuItem_Click(this, null);
+        }
     }
 }
 

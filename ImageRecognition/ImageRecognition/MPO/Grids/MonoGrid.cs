@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using MPO.UI;
+using MPO.BisnessLogic;
 
 namespace MPO.Grids
 {
@@ -317,6 +318,35 @@ namespace MPO.Grids
                 }
 
             return answer;
+        }
+
+        public BaseGrid CheckZongeSun(MainForm mainForm)
+        {
+            int imageSize = mainForm.imageSize;
+
+            ZongeSun.BlackValue = 1;
+            int[,] gridMas = new int[imageSize, imageSize];
+            //copy values to mas from grid
+            for (int y = 0; y < imageSize; y++)
+            {
+                for (int x = 0; x < imageSize; x++)
+                {
+                    gridMas[y, x] = Convert.ToInt32(this[x, y].Value);
+                }
+            }
+
+            ZongeSun.Thin(gridMas, imageSize, imageSize);
+
+            //copy values to grid from mas
+            for (int y = 0; y < imageSize; y++)
+            {
+                for (int x = 0; x < imageSize; x++)
+                {
+                    this[x, y].Value = gridMas[y, x];
+                }
+            }
+
+            return this;
         }
 
         #endregion

@@ -57,15 +57,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BisnessLogic\IntersectionsAnalyzer.cs" />
+    <Compile Include="BisnessLogic\Symbol.cs" />
+    <Compile Include="BisnessLogic\ZondDraw.cs" />
+    <Compile Include="BisnessLogic\ZongeSun.cs" />
     <Compile Include="Controls\AngleDiagramm.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\AngleDiagramm.Designer.cs">
       <DependentUpon>AngleDiagramm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Grids\GridBuilder.cs" />
+    <Compile Include="UI\ClassNameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ClassNameForm.Designer.cs">
+      <DependentUpon>ClassNameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FilterExtensionForm.cs">
       <SubType>Form</SubType>
@@ -123,6 +136,10 @@
       <DependentUpon>HistogrammControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ClassNameForm.resx">
+      <DependentUpon>ClassNameForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\FilterExtensionForm.resx">
       <DependentUpon>FilterExtensionForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -144,6 +161,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\ZondForm.resx">
+      <DependentUpon>ZondForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -157,6 +178,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UI\ZondForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ZondForm.Designer.cs">
+      <DependentUpon>ZondForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
