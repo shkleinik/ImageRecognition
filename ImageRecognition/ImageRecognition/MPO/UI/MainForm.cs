@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
-using MPO.Grids;
-
 //podpis picture
 // check dispose
 
 namespace MPO.UI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Windows.Forms;
+    using Grids;
+
     public partial class MainForm : Form
     {
         #region Constants
@@ -28,7 +28,6 @@ namespace MPO.UI
         public int multy = 5;
         private Bitmap originalBitmap;
         private string selectedImageFile;
-
         #endregion
 
         public MainForm()
@@ -230,16 +229,16 @@ namespace MPO.UI
             {
                 if (control.GetType() == typeof(PictureBox))
                 {
-                    if (((PictureBox) control).ImageLocation == filename)
+                    if (((PictureBox)control).ImageLocation == filename)
                     {
-                        MessageBox.Show(IMAGE_ALREADE_LOADED_MESSAGE,BRAND_MESSAGE, MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        MessageBox.Show(IMAGE_ALREADE_LOADED_MESSAGE, BRAND_MESSAGE, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
-                        
+
                 }
             }
-            
-            
+
+
             var pictureBox = new PictureBox();
             int num = GetNumberOfPictures();
             pictureBox.SetBounds(15 + num * 115, 15, 100, 100);
@@ -598,6 +597,25 @@ namespace MPO.UI
             }
         }
 
+        private void GenerateNeighbourGrid()
+        {
+            var height = currentGrid.Rows.Count;
+            var width = currentGrid.Columns.Count;
+
+            var auxiliaryMatrix = GetAuxiliaryArray(currentGrid);
+
+            for (var i = 0; i < height; i++)
+            {
+                for (var j = 0; j < width; j++)
+                {
+                    if (auxiliaryMatrix[i, j] == 1)
+                        currentGrid[i, j].Value = GetNeighboursNumber(auxiliaryMatrix, i, j);
+                    else
+                        currentGrid[i, j].Value = String.Empty;
+                }
+            }
+        }
+
         private static int GetMedianValue(int[,] extendedMatrix, int currI, int currJ)
         {
             var ii = 0;
@@ -617,6 +635,32 @@ namespace MPO.UI
 
             neighbours.Sort();
             return neighbours[4];
+        }
+
+        /// <summary>
+        /// Returns number of neighbours of current pixel.
+        /// </summary>
+        /// <param name="auxiliaryMatrix">Matrix of pixels. Matrix should be binarized (contain only "0" or "1").</param>
+        /// <param name="currI">X-coordinate of pixel number of neighbours would be returned.</param>
+        /// <param name="currJ">Y-coordinate of pixel number of neighbours would be returned.</param>
+        /// <returns>Returns number of neighbours of current pixel.</returns>
+        private static int GetNeighboursNumber(int[,] auxiliaryMatrix, int currI, int currJ)
+        {
+            var neighboursNumber = 0;
+            for (var i = currI - 1; i <= currI + 1; i++)
+            {
+                for (var j = currJ - 1; j <= currJ + 1; j++)
+                {
+                    if (i < 0 || j < 0 || i > (auxiliaryMatrix.GetLength(0) - 2) || j > (auxiliaryMatrix.GetLength(1) - 2))
+                        continue;
+                    if (i == currI && j == currJ)
+                        continue;
+
+                    neighboursNumber += auxiliaryMatrix[i, j];
+                }
+            }
+
+            return neighboursNumber;
         }
 
         private static int GetCellValueAccordingFilter(int[,] filter, int[,] extendedMatrix, int currI, int currJ)
@@ -684,20 +728,26 @@ namespace MPO.UI
             GridToImageToolStripMenuItem_Click(this, null);
         }
 
-        private void miZondMethod_Click(object sender, EventArgs e)
+        private void On_miZondMethod_Click(object sender, EventArgs e)
         {
             ZondForm zondForm = new ZondForm();
             zondForm.Show();
         }
 
-        private void miCheckZongeSun_Click(object sender, EventArgs e)
-        {            
+        private void On_miCheckZongeSun_Click(object sender, EventArgs e)
+        {
             currentGrid.ImageToGrid(originalBitmap);
             Controls.Remove(currentGrid);
             currentGrid = ((MonoGrid)currentGrid).CheckZongeSun(this);
             Controls.Add(currentGrid);
             pictureBoxPreview.Tag = imageType.mono;
             GridToImageToolStripMenuItem_Click(this, null);
+        }
+
+        private void On_miShowNeighboursMatrix_Click(object sender, EventArgs e)
+        {
+            GenerateNeighbourGrid();
+            //GridToImageToolStripMenuItem_Click(this, null);
         }
     }
 }

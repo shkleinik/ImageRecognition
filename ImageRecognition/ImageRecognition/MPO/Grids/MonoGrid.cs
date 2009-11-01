@@ -335,7 +335,7 @@ namespace MPO.Grids
                 }
             }
 
-            ZongeSun.Thin(gridMas, imageSize, imageSize);
+            ZongeSun.Thin(ref gridMas, imageSize, imageSize);
 
             //copy values to grid from mas
             for (int y = 0; y < imageSize; y++)

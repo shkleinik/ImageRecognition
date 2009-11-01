@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MPO.BisnessLogic
+﻿namespace MPO.BisnessLogic
 {
+    using System.Collections.Generic;
+
     public class ZongeSun
     {
         static int blackValue = 1;
@@ -12,46 +10,45 @@ namespace MPO.BisnessLogic
         public static int BlackValue
         {
             get { return blackValue; }
-            set 
+            set
             {
                 blackValue = (value % 2); whiteValue = ((value + 1) % 2);
             }
         }
         /// <summary>
-        /// 
+        /// The entry point of Zonge Sun algorithm.
         /// </summary>
-        /// <param name="mas">massive with 0 or 1 values</param>
-        /// <param name="xSize">massive width</param>
-        /// <param name="ySize">massive height</param>
-        /// <returns>processed massive</returns>
-        public static void Thin(int[,] changeMas, int xSize, int ySize)
+        /// <param name="matrixToChange">Matrix with 0 or 1 values.</param>
+        /// <param name="xSize">Matrix width.</param>
+        /// <param name="ySize">Matrix height.</param>
+        public static void Thin(ref int[,] matrixToChange, int xSize, int ySize)
         {
-            for (int times = 0; times < 2; times++)
-                for (int y = 0; y < ySize; y++)
+            for (var times = 0; times < 2; times++)
+                for (var y = 0; y < ySize; y++)
                 {
-                    for (int x = 0; x < xSize; x++)
+                    for (var x = 0; x < xSize; x++)
                     {
-                        List<int[]> littleMas = GetNeighbours(changeMas, y, x, xSize, ySize);
-                        if (StaticPart(littleMas, y, x, xSize, ySize))
-                        {
-                            if (times == 0)
-                                if (Algorithm1(littleMas, y, x, xSize, ySize))
-                                {
-                                    changeMas[y, x] = whiteValue;
-                                }
-                            if (times == 1)
-                                if (Algorithm2(littleMas, y, x, xSize, ySize))
-                                {
-                                    changeMas[y, x] = whiteValue;
-                                }
-                        }
+                        var littleMas = GetValuesFromNeighbourCells(matrixToChange, y, x, xSize, ySize);
+                        if (!StaticPart(littleMas, y, x, xSize, ySize))
+                            continue;
+
+                        if (times == 0)
+                            if (Algorithm1(littleMas, y, x, xSize, ySize))
+                            {
+                                matrixToChange[y, x] = whiteValue;
+                            }
+                        if (times == 1)
+                            if (Algorithm2(littleMas, y, x, xSize, ySize))
+                            {
+                                matrixToChange[y, x] = whiteValue;
+                            }
                     }
                 }
         }
 
         private static bool StaticPart(List<int[]> littleMas, int y, int x, int xSize, int ySize)
         {
-            int sum = GetSumNeighboursCells(littleMas, y, x, xSize, ySize);
+            int sum = GetNeighbourCellsSum(littleMas, y, x, xSize, ySize);
             if (sum >= 2 || sum <= 6)
             {
                 if (GetNumPerehodov(littleMas, y, x, xSize, ySize) == 1)
@@ -90,7 +87,7 @@ namespace MPO.BisnessLogic
             return false;
         }
 
-        private static int GetSumNeighboursCells(List<int[]> littleMas, int y, int x, int xSize, int ySize)
+        private static int GetNeighbourCellsSum(List<int[]> littleMas, int y, int x, int xSize, int ySize)
         {
             int sum = 0;
             for (int i = 1; i < littleMas.Count; i++)
@@ -98,7 +95,7 @@ namespace MPO.BisnessLogic
                 if (littleMas[i][2] == blackValue)
                 {
                     sum += 1;
-                }                
+                }
             }
             return sum;
         }
@@ -114,6 +111,9 @@ namespace MPO.BisnessLogic
                 if (littleMas[i - 1][2] == whiteValue && littleMas[i][2] == blackValue)
                     numPer++;
             }
+            if (littleMas[8][2] == whiteValue && littleMas[1][2] == blackValue)
+                numPer++;
+
             return numPer;
         }
 
@@ -134,7 +134,7 @@ namespace MPO.BisnessLogic
         //8 1 2
         //7 0 3
         //6 5 4
-        private static List<int[]> GetNeighbours(int[,] mas, int y, int x, int xSize, int ySize)
+        private static List<int[]> GetValuesFromNeighbourCells(int[,] mas, int y, int x, int xSize, int ySize)
         {
             List<int[]> littleMas = new List<int[]>();
             //0=x_index,1=y_index, 2=value

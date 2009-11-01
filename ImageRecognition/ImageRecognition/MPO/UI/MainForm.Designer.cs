@@ -52,6 +52,7 @@ namespace MPO.UI
             this.coloredToHalfToneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mi2009 = new System.Windows.Forms.ToolStripMenuItem();
             this.miZondMethod = new System.Windows.Forms.ToolStripMenuItem();
+            this.miCheckZongeSun = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -61,11 +62,11 @@ namespace MPO.UI
             this.privmitivesLengthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.applyMedianFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.miShowNeighboursMatrix = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBoxPreview = new System.Windows.Forms.PictureBox();
             this.commonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.angleDiagramm = new MPO.Controls.AngleDiagramm();
             this.histogramm = new MPO.Controls.HistogrammControl();
-            this.miCheckZongeSun = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStripToChessRange.SuspendLayout();
@@ -103,7 +104,7 @@ namespace MPO.UI
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // loadToolStripMenuItem
@@ -113,53 +114,53 @@ namespace MPO.UI
             this.halfToneToolStripMenuItem,
             this.coloredToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.loadToolStripMenuItem.Text = "Load Picture";
             // 
             // monoPictureToolStripMenuItem
             // 
             this.monoPictureToolStripMenuItem.Name = "monoPictureToolStripMenuItem";
-            this.monoPictureToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.monoPictureToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.monoPictureToolStripMenuItem.Text = "Mono";
             this.monoPictureToolStripMenuItem.Click += new System.EventHandler(this.monoPictureToolStripMenuItem_Click);
             // 
             // halfToneToolStripMenuItem
             // 
             this.halfToneToolStripMenuItem.Name = "halfToneToolStripMenuItem";
-            this.halfToneToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.halfToneToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.halfToneToolStripMenuItem.Text = "HalfTone";
             this.halfToneToolStripMenuItem.Click += new System.EventHandler(this.halfToneToolStripMenuItem_Click);
             // 
             // coloredToolStripMenuItem
             // 
             this.coloredToolStripMenuItem.Name = "coloredToolStripMenuItem";
-            this.coloredToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.coloredToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.coloredToolStripMenuItem.Text = "Colored";
             this.coloredToolStripMenuItem.Click += new System.EventHandler(this.coloredToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(137, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -168,13 +169,13 @@ namespace MPO.UI
             this.imageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ImageToHalfToneGridToolStripMenuItem});
             this.imageToolStripMenuItem.Name = "imageToolStripMenuItem";
-            this.imageToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.imageToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.imageToolStripMenuItem.Text = "Image";
             // 
             // ImageToHalfToneGridToolStripMenuItem
             // 
             this.ImageToHalfToneGridToolStripMenuItem.Name = "ImageToHalfToneGridToolStripMenuItem";
-            this.ImageToHalfToneGridToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.ImageToHalfToneGridToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.ImageToHalfToneGridToolStripMenuItem.Text = "To HalfTone";
             this.ImageToHalfToneGridToolStripMenuItem.Click += new System.EventHandler(this.ImageToHalfTone);
             // 
@@ -185,27 +186,27 @@ namespace MPO.UI
             this.GridToHalfToneToolStripMenuItem,
             this.coloredToHalfToneToolStripMenuItem});
             this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
-            this.gridToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.gridToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.gridToolStripMenuItem.Text = "Grid";
             // 
             // GridtoImageToolStripMenuItem
             // 
             this.GridtoImageToolStripMenuItem.Name = "GridtoImageToolStripMenuItem";
-            this.GridtoImageToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.GridtoImageToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.GridtoImageToolStripMenuItem.Text = "To Image";
             this.GridtoImageToolStripMenuItem.Click += new System.EventHandler(this.GridToImageToolStripMenuItem_Click);
             // 
             // GridToHalfToneToolStripMenuItem
             // 
             this.GridToHalfToneToolStripMenuItem.Name = "GridToHalfToneToolStripMenuItem";
-            this.GridToHalfToneToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.GridToHalfToneToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.GridToHalfToneToolStripMenuItem.Text = "To halfTone";
             this.GridToHalfToneToolStripMenuItem.Click += new System.EventHandler(this.GridToHalfToneToolStripMenuItem_Click);
             // 
             // coloredToHalfToneToolStripMenuItem
             // 
             this.coloredToHalfToneToolStripMenuItem.Name = "coloredToHalfToneToolStripMenuItem";
-            this.coloredToHalfToneToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.coloredToHalfToneToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.coloredToHalfToneToolStripMenuItem.Text = "ColoredToHalfTone";
             this.coloredToHalfToneToolStripMenuItem.Click += new System.EventHandler(this.GridColoredToHalfToneToolStripMenuItem_Click);
             // 
@@ -221,9 +222,16 @@ namespace MPO.UI
             // miZondMethod
             // 
             this.miZondMethod.Name = "miZondMethod";
-            this.miZondMethod.Size = new System.Drawing.Size(185, 22);
+            this.miZondMethod.Size = new System.Drawing.Size(186, 22);
             this.miZondMethod.Text = "Zond Method (laba2)";
-            this.miZondMethod.Click += new System.EventHandler(this.miZondMethod_Click);
+            this.miZondMethod.Click += new System.EventHandler(this.On_miZondMethod_Click);
+            // 
+            // miCheckZongeSun
+            // 
+            this.miCheckZongeSun.Name = "miCheckZongeSun";
+            this.miCheckZongeSun.Size = new System.Drawing.Size(186, 22);
+            this.miCheckZongeSun.Text = "CheckZongeSun";
+            this.miCheckZongeSun.Click += new System.EventHandler(this.On_miCheckZongeSun_Click);
             // 
             // openFileDialog1
             // 
@@ -270,46 +278,54 @@ namespace MPO.UI
             this.buildHistogrammToolStripMenuItem,
             this.privmitivesLengthToolStripMenuItem,
             this.filtrateToolStripMenuItem,
-            this.applyMedianFilterToolStripMenuItem});
+            this.applyMedianFilterToolStripMenuItem,
+            this.miShowNeighboursMatrix});
             this.contextMenuStripToChessRange.Name = "contextMenuStripToChessRange";
-            this.contextMenuStripToChessRange.Size = new System.Drawing.Size(216, 114);
+            this.contextMenuStripToChessRange.Size = new System.Drawing.Size(217, 136);
             this.contextMenuStripToChessRange.Text = "To Chess Range";
             this.contextMenuStripToChessRange.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripToChessRange_Opening);
             // 
             // toToolStripMenuItem
             // 
             this.toToolStripMenuItem.Name = "toToolStripMenuItem";
-            this.toToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.toToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.toToolStripMenuItem.Text = "To Chess Range";
             this.toToolStripMenuItem.Click += new System.EventHandler(this.toChessRangeToolStripMenuItem_Click);
             // 
             // buildHistogrammToolStripMenuItem
             // 
             this.buildHistogrammToolStripMenuItem.Name = "buildHistogrammToolStripMenuItem";
-            this.buildHistogrammToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.buildHistogrammToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.buildHistogrammToolStripMenuItem.Text = "Build Histogramm";
             this.buildHistogrammToolStripMenuItem.Click += new System.EventHandler(this.buildHistogrammToolStripMenuItem_Click);
             // 
             // privmitivesLengthToolStripMenuItem
             // 
             this.privmitivesLengthToolStripMenuItem.Name = "privmitivesLengthToolStripMenuItem";
-            this.privmitivesLengthToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.privmitivesLengthToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.privmitivesLengthToolStripMenuItem.Text = "Длина примитива (лаба3)";
             this.privmitivesLengthToolStripMenuItem.Click += new System.EventHandler(this.primitiveLengthToolStripMenuItem_Click);
             // 
             // filtrateToolStripMenuItem
             // 
             this.filtrateToolStripMenuItem.Name = "filtrateToolStripMenuItem";
-            this.filtrateToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.filtrateToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.filtrateToolStripMenuItem.Text = "Enter extension filter";
             this.filtrateToolStripMenuItem.Click += new System.EventHandler(this.OnFilterClick);
             // 
             // applyMedianFilterToolStripMenuItem
             // 
             this.applyMedianFilterToolStripMenuItem.Name = "applyMedianFilterToolStripMenuItem";
-            this.applyMedianFilterToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.applyMedianFilterToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.applyMedianFilterToolStripMenuItem.Text = "Apply median filter";
             this.applyMedianFilterToolStripMenuItem.Click += new System.EventHandler(this.OnApplyMedianFilter);
+            // 
+            // miShowNeighboursMatrix
+            // 
+            this.miShowNeighboursMatrix.Name = "miShowNeighboursMatrix";
+            this.miShowNeighboursMatrix.Size = new System.Drawing.Size(216, 22);
+            this.miShowNeighboursMatrix.Text = "Show neighboours matrix";
+            this.miShowNeighboursMatrix.Click += new System.EventHandler(this.On_miShowNeighboursMatrix_Click);
             // 
             // pictureBoxPreview
             // 
@@ -347,13 +363,6 @@ namespace MPO.UI
             this.histogramm.TabIndex = 6;
             this.histogramm.Visible = false;
             // 
-            // miCheckZongeSun
-            // 
-            this.miCheckZongeSun.Name = "miCheckZongeSun";
-            this.miCheckZongeSun.Size = new System.Drawing.Size(185, 22);
-            this.miCheckZongeSun.Text = "CheckZongeSun";
-            this.miCheckZongeSun.Click += new System.EventHandler(this.miCheckZongeSun_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,8 +376,10 @@ namespace MPO.UI
             this.Controls.Add(this.histogramm);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "MainForm";
             this.Text = "Main Form";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
@@ -415,5 +426,6 @@ namespace MPO.UI
         private System.Windows.Forms.ToolStripMenuItem mi2009;
         private System.Windows.Forms.ToolStripMenuItem miZondMethod;
         private System.Windows.Forms.ToolStripMenuItem miCheckZongeSun;
+        private System.Windows.Forms.ToolStripMenuItem miShowNeighboursMatrix;
     }
 }
