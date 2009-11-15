@@ -53,6 +53,7 @@ namespace MPO.UI
         private void MainForm_Load(object sender, EventArgs e)
         {
             ActivateMenu(state.start, false);
+#if DEBUG
             LoadPicture(@"TestImages\a_Mono.bmp", imageType.mono);
             LoadPicture(@"TestImages\h.bmp", imageType.mono);
             LoadPicture(@"TestImages\h_Mono.bmp", imageType.mono);
@@ -60,13 +61,9 @@ namespace MPO.UI
             LoadPicture(@"TestImages\Ц.bmp", imageType.mono);
             LoadPicture(@"TestImages\K.bmp", imageType.mono);
             LoadPicture(@"TestImages\7_0.bmp", imageType.mono);
-            LoadPicture(@"TestImages\7_1.bmp", imageType.mono);
-            //LoadPicture(@"TestImages\Vertical lines.bmp", imageType.mono);
-            //LoadPicture(@"TestImages\Horizontal lines.bmp", imageType.mono);
-            //LoadPicture(@"TestImages\Left Inclinated lines.bmp", imageType.mono);
-            //LoadPicture(@"TestImages\Right Inclinated lines.bmp", imageType.mono);
+            LoadPicture(@"TestImages\7_2.bmp", imageType.mono);
             LoadPicture(@"TestImages\П.bmp", imageType.mono);
-            //LoadPicture(@"TestImages\Vertical line.bmp", imageType.mono);
+#endif
         }
         #endregion
 
@@ -195,20 +192,21 @@ namespace MPO.UI
             if (symbolRecognizedByKvazar == null)
                 throw new ArgumentException("Symbol was not recognized by Kvazar");
 
-            var Ц = new Symbol { Keys = new List<int> { 1, 3, 1, 1 }, Name = "Ц" };
+            var Ц = new Symbol { Keys = new List<int> { 1, 1, 3, 1 }, Name = "Ц" };
             var K = new Symbol { Keys = new List<int> { 1, 1, 3, 3, 1, 1 }, Name = "К" };
-            var Семь = new Symbol { Keys = new List<int> { 1, 1, 1, 3, 1, 1 }, Name = "7" };
+            var Семь = new Symbol { Keys = new List<int> { 1, 1, 1, 3, 3, 1 }, Name = "7" };
+            var Семь_1 = new Symbol { Keys = new List<int> { 1, 1, 3, 1, 1 }, Name = "7" };
 
-            var supportedSymbols = new List<Symbol> { Ц, K, Семь };
+            var supportedSymbols = new List<Symbol> { Ц, K, Семь, Семь_1 };
 
             foreach (var symbol in supportedSymbols)
             {
                 if (0 != symbolRecognizedByKvazar.CompareTo(symbol))
                     continue;
-                MessageBox.Show(String.Format("Recognized symbol is \"{0}\"", symbol.Name));
+                MessageBox.Show(String.Format("Recognized symbol is \"{0}\"", symbol.Name), "Recognition result");
                 return;
             }
-            MessageBox.Show("Symbol is not recognized.");
+            MessageBox.Show("Symbol is not recognized.", "Recognition result");
         }
 
         private void On_miEnterFilter_Click(object sender, EventArgs e)

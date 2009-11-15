@@ -324,7 +324,7 @@ namespace MPO.Grids
         {
             int imageSize = mainForm.imageSize;
 
-            ZongeSun.BlackValue = 1;
+            ZongeSyn.BlackValue = 1;
             int[,] gridMas = new int[imageSize, imageSize];
             //copy values to mas from grid
             for (int y = 0; y < imageSize; y++)
@@ -335,7 +335,7 @@ namespace MPO.Grids
                 }
             }
 
-            ZongeSun.Thin(ref gridMas, imageSize, imageSize);
+            ZongeSyn.Thin(ref gridMas, imageSize, imageSize);
 
             //copy values to grid from mas
             for (int y = 0; y < imageSize; y++)

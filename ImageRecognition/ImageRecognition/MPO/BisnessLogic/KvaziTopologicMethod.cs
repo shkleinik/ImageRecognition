@@ -152,7 +152,7 @@ namespace MPO.BisnessLogic
             {
                 for (var j = 0; j < SwitchesMatrix.GetLength(1); j++)
                 {
-                    if (SwitchesMatrix[i, j] == 1 || SwitchesMatrix[i, j] == 3)
+                    if (SwitchesMatrix[i, j] == 1 || SwitchesMatrix[i, j] >= 3)
                         RecognizedSymbol.Keys.Add(SwitchesMatrix[i, j]);
                 }
             }

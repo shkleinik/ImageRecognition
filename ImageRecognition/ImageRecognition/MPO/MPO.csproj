@@ -67,7 +67,7 @@
     <Compile Include="BisnessLogic\KvaziTopologicMethod.cs" />
     <Compile Include="BisnessLogic\Symbol.cs" />
     <Compile Include="BisnessLogic\ZondDraw.cs" />
-    <Compile Include="BisnessLogic\ZongeSun.cs" />
+    <Compile Include="BisnessLogic\ZongeSyn.cs" />
     <Compile Include="Controls\AngleDiagramm.cs">
       <SubType>UserControl</SubType>
     </Compile>
