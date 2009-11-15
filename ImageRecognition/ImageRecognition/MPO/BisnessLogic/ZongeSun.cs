@@ -4,17 +4,25 @@
 
     public class ZongeSun
     {
-        static int blackValue = 1;
-        static int whiteValue = 0;
+        static int blackValue;
+        static int whiteValue;
+
+        public ZongeSun()
+        {
+            blackValue = 1;
+            whiteValue = 0;
+        }
 
         public static int BlackValue
         {
             get { return blackValue; }
             set
             {
-                blackValue = (value % 2); whiteValue = ((value + 1) % 2);
+                blackValue = (value % 2);
+                whiteValue = ((value + 1) % 2);
             }
         }
+
         /// <summary>
         /// The entry point of Zonge Sun algorithm.
         /// </summary>
@@ -23,48 +31,91 @@
         /// <param name="ySize">Matrix height.</param>
         public static void Thin(ref int[,] matrixToChange, int xSize, int ySize)
         {
-            for (var times = 0; times < 2; times++)
-                for (var y = 0; y < ySize; y++)
-                {
-                    for (var x = 0; x < xSize; x++)
-                    {
-                        var littleMas = GetValuesFromNeighbourCells(matrixToChange, y, x, xSize, ySize);
-                        if (!StaticPart(littleMas, y, x, xSize, ySize))
-                            continue;
+            var tempArray1 = new int[matrixToChange.GetLength(0), matrixToChange.GetLength(1)];
+            var finish = false;
 
-                        if (times == 0)
-                            if (Algorithm1(littleMas, y, x, xSize, ySize))
+            while (!finish)
+            {
+                finish = true;
+                DuplicateArray(matrixToChange, tempArray1);
+                for (var times = 1; times <= 2; times++)
+                {
+                    for (var y = 0; y < ySize; y++)
+                    {
+                        for (var x = 0; x < xSize; x++)
+                        {
+                            List<int[]> littleMas;
+                            switch (times)
                             {
-                                matrixToChange[y, x] = whiteValue;
+                                case 1:
+                                    if (matrixToChange[y, x] == whiteValue)
+                                        continue;
+
+                                    littleMas = GetValuesFromNeighbourCells(matrixToChange, y, x);
+
+                                    if (!StaticPart(littleMas))
+                                        continue;
+
+                                    if (Algorithm1(littleMas))
+                                    {
+                                        tempArray1[y, x] = whiteValue;
+                                        finish = false;
+                                    }
+                                    break;
+                                case 2:
+                                    if (tempArray1[y, x] == whiteValue)
+                                        continue;
+
+                                    littleMas = GetValuesFromNeighbourCells(matrixToChange, y, x);
+
+                                    if (!StaticPart(littleMas))
+                                        continue;
+
+                                    if (Algorithm2(littleMas))
+                                    {
+                                        tempArray1[y, x] = whiteValue;
+                                        finish = false;
+                                    }
+                                    break;
+
+                                default:
+                                    break;
                             }
-                        if (times == 1)
-                            if (Algorithm2(littleMas, y, x, xSize, ySize))
-                            {
-                                matrixToChange[y, x] = whiteValue;
-                            }
+                        }
                     }
                 }
+                DuplicateArray(tempArray1, matrixToChange);
+            }
+            matrixToChange = tempArray1;
         }
 
-        private static bool StaticPart(List<int[]> littleMas, int y, int x, int xSize, int ySize)
+        private static void DuplicateArray(int[,] source, int[,] target)
         {
-            int sum = GetNeighbourCellsSum(littleMas, y, x, xSize, ySize);
-            if (sum >= 2 || sum <= 6)
+            for (var i = 0; i < source.GetLength(0); i++)
             {
-                if (GetNumPerehodov(littleMas, y, x, xSize, ySize) == 1)
+                for (var j = 0; j < source.GetLength(1); j++)
                 {
-                    return true;
+                    target[i, j] = source[i, j];
                 }
             }
+        }
+
+        private static bool StaticPart(IList<int[]> littleMas)
+        {
+            var sum = GetNeighbourCellsSum(littleMas);
+
+            if (sum >= 2 && sum <= 6)
+                return GetNumPerehodov(littleMas) == 1;
+
             return false;
         }
 
-        private static bool Algorithm1(List<int[]> littleMas, int y, int x, int xSize, int ySize)
+        private static bool Algorithm1(IList<int[]> littleMas)
         {
-            //p2*p4*p6
+            // P2 * P4 * P6
             if (littleMas[1][2] * littleMas[3][2] * littleMas[5][2] == 0)
             {
-                //p4*p6*p8
+                // P4 * P6 * P8
                 if (littleMas[3][2] * littleMas[5][2] * littleMas[7][2] == 0)
                 {
                     return true;
@@ -73,12 +124,12 @@
             return false;
         }
 
-        private static bool Algorithm2(List<int[]> littleMas, int y, int x, int xSize, int ySize)
+        private static bool Algorithm2(IList<int[]> littleMas)
         {
-            //p2*p4*p8
+            // P2 * P4 * P8
             if (littleMas[1][2] * littleMas[3][2] * littleMas[7][2] == 0)
             {
-                //p2*p6*p8
+                // P2 * P6 * P8
                 if (littleMas[1][2] * littleMas[5][2] * littleMas[7][2] == 0)
                 {
                     return true;
@@ -87,10 +138,11 @@
             return false;
         }
 
-        private static int GetNeighbourCellsSum(List<int[]> littleMas, int y, int x, int xSize, int ySize)
+        private static int GetNeighbourCellsSum(IList<int[]> littleMas)
         {
-            int sum = 0;
-            for (int i = 1; i < littleMas.Count; i++)
+            var sum = 0;
+
+            for (var i = 1; i < littleMas.Count; i++)
             {
                 if (littleMas[i][2] == blackValue)
                 {
@@ -100,57 +152,78 @@
             return sum;
         }
 
-        private static int GetNumPerehodov(List<int[]> littleMas, int y, int x, int xSize, int ySize)
+        private static int GetNumPerehodov(IList<int[]> littleMas)
         {
-            int numPer = 0;
-            //проверяем переходы с 3ей клетки
-            //данная реализация не замыкает проверку переходов
-            //т.е не проверятся переход между 2 и 9 клеткой
-            for (int i = 2; i < littleMas.Count; i++)
+            var numPer = 0;
+
+            // P2 = 0 && P3 = 1, P3 = 0 && P4 = 1 . . .  P8 = 0 * P9 = 1
+            for (var i = 1; i < littleMas.Count - 1; i++)
             {
-                if (littleMas[i - 1][2] == whiteValue && littleMas[i][2] == blackValue)
+                if (littleMas[i][2] == whiteValue && littleMas[i + 1][2] == blackValue)
                     numPer++;
             }
+
+            // P9 = 0 * P2 = 1
             if (littleMas[8][2] == whiteValue && littleMas[1][2] == blackValue)
                 numPer++;
 
             return numPer;
         }
 
-        private static int[] CheckBounds(int[,] mas, int y, int x, int xSize, int ySize)
+        private static int[] CheckBounds(int[,] mas, int y, int x)
         {
+            var xSize = mas.GetLength(0);
+            var ySize = mas.GetLength(1);
+
             if (y < 0 || y >= ySize)
             {
-                return (new int[] { -1, -1, 0 });
+                return (new[] { -1, -1, 0 });
             }
             if (x < 0 || x >= xSize)
             {
-                return (new int[] { -1, -1, 0 });
+                return (new[] { -1, -1, 0 });
             }
-            return (new int[] { x, y, mas[y, x] });
+            return (new[] { x, y, mas[y, x] });
         }
 
-
-        //8 1 2
-        //7 0 3
-        //6 5 4
-        private static List<int[]> GetValuesFromNeighbourCells(int[,] mas, int y, int x, int xSize, int ySize)
+        // P9 P2 P3    8 1 2
+        // P8 P1 P4    7 0 3
+        // P7 P6 P5    6 5 4
+        private static List<int[]> GetValuesFromNeighbourCells(int[,] mas, int y, int x)
         {
-            List<int[]> littleMas = new List<int[]>();
             //0=x_index,1=y_index, 2=value
             //1,2,3...and so on
-            littleMas.Add(CheckBounds(mas, y, x, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y - 1, x, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y - 1, x + 1, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y, x + 1, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y + 1, x + 1, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y + 1, x, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y + 1, x - 1, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y, x - 1, xSize, ySize));
-            littleMas.Add(CheckBounds(mas, y - 1, x - 1, xSize, ySize));
+
+            var littleMas = new List<int[]>
+                                {
+                                    CheckBounds(mas, y, x),             // P1
+                                    CheckBounds(mas, y - 1, x),         // P2
+                                    CheckBounds(mas, y - 1, x + 1),     // P3
+                                    CheckBounds(mas, y, x + 1),         // P4
+                                    CheckBounds(mas, y + 1, x + 1),     // P5
+                                    CheckBounds(mas, y + 1, x),         // P6
+                                    CheckBounds(mas, y + 1, x - 1),     // P7
+                                    CheckBounds(mas, y, x - 1),         // P8
+                                    CheckBounds(mas, y - 1, x - 1)      // P9
+                                };
+
 
             return littleMas;
         }
 
     }
 }
+
+//private int GetFirstStepResult(int[,] binMatrix, int x, int y)
+//{
+
+//    if (binMatrix[y, x] == whiteValue)
+//        return whiteValue;
+
+//    var littleMas = GetValuesFromNeighbourCells(binMatrix, y, x);
+
+//    if (!StaticPart(littleMas))
+//        return binMatrix[y, x];
+
+//    return Algorithm2(littleMas) ? whiteValue : binMatrix[x, y];
+//}

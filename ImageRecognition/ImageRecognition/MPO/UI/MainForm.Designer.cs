@@ -67,6 +67,7 @@ namespace MPO.UI
             this.commonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.angleDiagramm = new MPO.Controls.AngleDiagramm();
             this.histogramm = new MPO.Controls.HistogrammControl();
+            this.miRecognizeLetter = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStripToChessRange.SuspendLayout();
@@ -222,15 +223,15 @@ namespace MPO.UI
             // miZondMethod
             // 
             this.miZondMethod.Name = "miZondMethod";
-            this.miZondMethod.Size = new System.Drawing.Size(186, 22);
-            this.miZondMethod.Text = "Zond Method (laba2)";
+            this.miZondMethod.Size = new System.Drawing.Size(192, 22);
+            this.miZondMethod.Text = "Zond Method";
             this.miZondMethod.Click += new System.EventHandler(this.On_miZondMethod_Click);
             // 
             // miCheckZongeSun
             // 
             this.miCheckZongeSun.Name = "miCheckZongeSun";
-            this.miCheckZongeSun.Size = new System.Drawing.Size(186, 22);
-            this.miCheckZongeSun.Text = "CheckZongeSun";
+            this.miCheckZongeSun.Size = new System.Drawing.Size(192, 22);
+            this.miCheckZongeSun.Text = "Thin image(Zoge Sun)";
             this.miCheckZongeSun.Click += new System.EventHandler(this.On_miCheckZongeSun_Click);
             // 
             // openFileDialog1
@@ -279,46 +280,47 @@ namespace MPO.UI
             this.privmitivesLengthToolStripMenuItem,
             this.filtrateToolStripMenuItem,
             this.applyMedianFilterToolStripMenuItem,
-            this.miShowNeighboursMatrix});
+            this.miShowNeighboursMatrix,
+            this.miRecognizeLetter});
             this.contextMenuStripToChessRange.Name = "contextMenuStripToChessRange";
-            this.contextMenuStripToChessRange.Size = new System.Drawing.Size(217, 136);
+            this.contextMenuStripToChessRange.Size = new System.Drawing.Size(217, 180);
             this.contextMenuStripToChessRange.Text = "To Chess Range";
-            this.contextMenuStripToChessRange.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripToChessRange_Opening);
+            this.contextMenuStripToChessRange.Opening += new System.ComponentModel.CancelEventHandler(this.On_miToChessRange_Opening);
             // 
             // toToolStripMenuItem
             // 
             this.toToolStripMenuItem.Name = "toToolStripMenuItem";
             this.toToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.toToolStripMenuItem.Text = "To Chess Range";
-            this.toToolStripMenuItem.Click += new System.EventHandler(this.toChessRangeToolStripMenuItem_Click);
+            this.toToolStripMenuItem.Click += new System.EventHandler(this.On_miToChessRange_Click);
             // 
             // buildHistogrammToolStripMenuItem
             // 
             this.buildHistogrammToolStripMenuItem.Name = "buildHistogrammToolStripMenuItem";
             this.buildHistogrammToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.buildHistogrammToolStripMenuItem.Text = "Build Histogramm";
-            this.buildHistogrammToolStripMenuItem.Click += new System.EventHandler(this.buildHistogrammToolStripMenuItem_Click);
+            this.buildHistogrammToolStripMenuItem.Click += new System.EventHandler(this.On_miBuildHistogramm_Click);
             // 
             // privmitivesLengthToolStripMenuItem
             // 
             this.privmitivesLengthToolStripMenuItem.Name = "privmitivesLengthToolStripMenuItem";
             this.privmitivesLengthToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.privmitivesLengthToolStripMenuItem.Text = "Длина примитива (лаба3)";
-            this.privmitivesLengthToolStripMenuItem.Click += new System.EventHandler(this.primitiveLengthToolStripMenuItem_Click);
+            this.privmitivesLengthToolStripMenuItem.Click += new System.EventHandler(this.On_miPrimitiveLength_Click);
             // 
             // filtrateToolStripMenuItem
             // 
             this.filtrateToolStripMenuItem.Name = "filtrateToolStripMenuItem";
             this.filtrateToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.filtrateToolStripMenuItem.Text = "Enter extension filter";
-            this.filtrateToolStripMenuItem.Click += new System.EventHandler(this.OnFilterClick);
+            this.filtrateToolStripMenuItem.Click += new System.EventHandler(this.On_miEnterFilter_Click);
             // 
             // applyMedianFilterToolStripMenuItem
             // 
             this.applyMedianFilterToolStripMenuItem.Name = "applyMedianFilterToolStripMenuItem";
             this.applyMedianFilterToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.applyMedianFilterToolStripMenuItem.Text = "Apply median filter";
-            this.applyMedianFilterToolStripMenuItem.Click += new System.EventHandler(this.OnApplyMedianFilter);
+            this.applyMedianFilterToolStripMenuItem.Click += new System.EventHandler(this.On_miApplyMedianFilter_Click);
             // 
             // miShowNeighboursMatrix
             // 
@@ -362,6 +364,14 @@ namespace MPO.UI
             this.histogramm.Size = new System.Drawing.Size(300, 150);
             this.histogramm.TabIndex = 6;
             this.histogramm.Visible = false;
+            // 
+            // miRecognizeLetter
+            // 
+            this.miRecognizeLetter.Enabled = false;
+            this.miRecognizeLetter.Name = "miRecognizeLetter";
+            this.miRecognizeLetter.Size = new System.Drawing.Size(216, 22);
+            this.miRecognizeLetter.Text = "Recognize Letter";
+            this.miRecognizeLetter.Click += new System.EventHandler(this.On_miRecognizeLetter_Click);
             // 
             // MainForm
             // 
@@ -427,5 +437,6 @@ namespace MPO.UI
         private System.Windows.Forms.ToolStripMenuItem miZondMethod;
         private System.Windows.Forms.ToolStripMenuItem miCheckZongeSun;
         private System.Windows.Forms.ToolStripMenuItem miShowNeighboursMatrix;
+        private System.Windows.Forms.ToolStripMenuItem miRecognizeLetter;
     }
 }

@@ -1,23 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-
-namespace MPO.BisnessLogic
+﻿namespace MPO.BisnessLogic
 {
-    public class Symbol
-    {
-        public int[,] SymbolPoints;
-        private DataGridView grid;
-        private Color foreColor;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Text;
+    using System.Windows.Forms;
 
+    /// <summary>
+    /// Symbol class.
+    /// </summary>
+    public class Symbol : IComparable
+    {
+        #region Fields
+        public int[,] SymbolPoints;
+        public int[] Intersections;
+
+        private readonly DataGridView grid;
+        private readonly Color foreColor;
         private string name = string.Empty;
+        #endregion
+
+        #region Properties
         public string Name
         {
             get
-            {               
+            {
                 return name;
+            }
+
+            set
+            {
+                name = value;
             }
         }
 
@@ -31,9 +44,14 @@ namespace MPO.BisnessLogic
             get { return grid.Rows.Count; }
         }
 
-        public int[] Intersections;
+        public List<int> Keys { get; set; }
+        #endregion
 
-        public Symbol(DataGridView grid,Color foreColor)
+        public Symbol()
+        {
+        }
+
+        public Symbol(DataGridView grid, Color foreColor)
         {
             this.grid = grid;
             this.SymbolPoints = new int[grid.Rows.Count, grid.Columns.Count];
@@ -50,7 +68,7 @@ namespace MPO.BisnessLogic
         {
             StringBuilder sb = new StringBuilder();
             Random r = new Random();
-            sb.AppendFormat("Symbol #{0}",name);
+            sb.AppendFormat("Symbol #{0}", name);
             this.name = sb.ToString();
         }
 
@@ -62,7 +80,7 @@ namespace MPO.BisnessLogic
                 {
                     if (SymbolPoints[x, y] == 1)
                     {
-                        grid[x,y].Style.BackColor = grid.DefaultCellStyle.BackColor;
+                        grid[x, y].Style.BackColor = grid.DefaultCellStyle.BackColor;
                     }
                 }
             }
@@ -74,13 +92,41 @@ namespace MPO.BisnessLogic
             {
                 for (int x = 0; x < grid.Columns.Count; x++)
                 {
-                    if (SymbolPoints[x, y] == 1 )
-                        //&& grid[x, y].Style.BackColor == grid.DefaultCellStyle.BackColor)
+                    if (SymbolPoints[x, y] == 1)
+                    //&& grid[x, y].Style.BackColor == grid.DefaultCellStyle.BackColor)
                     {
                         grid[x, y].Style.BackColor = this.foreColor;
                     }
                 }
             }
         }
+
+        #region IComparable Members
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Symbol)
+            {
+                var otherSymbol = (Symbol)obj;
+
+                if (otherSymbol.Keys.Count != Keys.Count)
+                    return otherSymbol.Keys.Count - Keys.Count;
+
+                for (var i = 0; i < Keys.Count; i++)
+                {
+                    if(otherSymbol.Keys[i]==Keys[i])
+                        continue;
+                    return otherSymbol.Keys[i] - Keys[i];
+                }
+                
+                return 0;
+            }
+
+            throw new ArgumentException("object is not a Symbol");
+        }
+
+        #endregion
     }
 }
+
+// Note : Move drawing logic to some outer class like SymbolManager.

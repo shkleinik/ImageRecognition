@@ -31,20 +31,21 @@
             this.textBoxClassName = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxClassName
             // 
-            this.textBoxClassName.Font = new System.Drawing.Font("Microsoft Sans Serif", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxClassName.Location = new System.Drawing.Point(117, 39);
+            this.textBoxClassName.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxClassName.Location = new System.Drawing.Point(15, 45);
             this.textBoxClassName.Name = "textBoxClassName";
-            this.textBoxClassName.Size = new System.Drawing.Size(100, 83);
+            this.textBoxClassName.Size = new System.Drawing.Size(150, 24);
             this.textBoxClassName.TabIndex = 0;
             // 
             // buttonOk
             // 
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(66, 158);
+            this.buttonOk.Location = new System.Drawing.Point(58, 102);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 1;
@@ -54,23 +55,36 @@
             // button2
             // 
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button2.Location = new System.Drawing.Point(193, 157);
+            this.button2.Location = new System.Drawing.Point(139, 102);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(201, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Enter class name in the following textbox:";
+            // 
             // ClassNameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 212);
+            this.ClientSize = new System.Drawing.Size(226, 137);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.textBoxClassName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ClassNameForm";
-            this.Text = "ClassNameForm";
+            this.Text = "Add Class";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,5 +95,6 @@
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button button2;
         public System.Windows.Forms.TextBox textBoxClassName;
+        private System.Windows.Forms.Label label1;
     }
 }

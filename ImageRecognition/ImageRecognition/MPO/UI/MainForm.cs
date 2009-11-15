@@ -1,5 +1,9 @@
-//podpis picture
-// check dispose
+//-----------------------------------------------------------------------
+// <copyright file="KvaziTopologicMethod.cs" company="Walash Ltd.">
+//     Copyright (c) Walash Ltd. All rights reserved.
+// </copyright>
+// <author>Zui Maxim,Pavel Shkleinik</author>
+//-----------------------------------------------------------------------
 
 namespace MPO.UI
 {
@@ -8,9 +12,14 @@ namespace MPO.UI
     using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Text;
     using System.Windows.Forms;
+    using BisnessLogic;
     using Grids;
 
+    /// <summary>
+    /// Main GUI entry of application. Unfortunately contains some elements of business logic.
+    /// </summary>
     public partial class MainForm : Form
     {
         #region Constants
@@ -28,47 +37,41 @@ namespace MPO.UI
         public int multy = 5;
         private Bitmap originalBitmap;
         private string selectedImageFile;
+        private Symbol symbolRecognizedByKvazar;
         #endregion
 
+        #region Constructors
         public MainForm()
         {
             InitializeComponent();
             angleDiagramm.tbAngle.ValueChanged += OnLiniarScaling;
             commonToolTip.ToolTipTitle = BRAND_MESSAGE;
         }
+        #endregion
 
+        #region Main form events
         private void MainForm_Load(object sender, EventArgs e)
         {
             ActivateMenu(state.start, false);
+            LoadPicture(@"TestImages\a_Mono.bmp", imageType.mono);
+            LoadPicture(@"TestImages\h.bmp", imageType.mono);
+            LoadPicture(@"TestImages\h_Mono.bmp", imageType.mono);
+            LoadPicture(@"TestImages\Test.bmp", imageType.mono);
+            LoadPicture(@"TestImages\Ц.bmp", imageType.mono);
+            LoadPicture(@"TestImages\K.bmp", imageType.mono);
+            LoadPicture(@"TestImages\7_0.bmp", imageType.mono);
+            LoadPicture(@"TestImages\7_1.bmp", imageType.mono);
+            //LoadPicture(@"TestImages\Vertical lines.bmp", imageType.mono);
+            //LoadPicture(@"TestImages\Horizontal lines.bmp", imageType.mono);
+            //LoadPicture(@"TestImages\Left Inclinated lines.bmp", imageType.mono);
+            //LoadPicture(@"TestImages\Right Inclinated lines.bmp", imageType.mono);
+            LoadPicture(@"TestImages\П.bmp", imageType.mono);
+            //LoadPicture(@"TestImages\Vertical line.bmp", imageType.mono);
         }
+        #endregion
 
-        private void ZoomOriginalBitmap(imageType imageT)
-        {
-            var color = new Color();
-            var brush = new SolidBrush(color);
-            int multy = 5;
-            // todo suspend memory leak here
-            var zoomBitmap = new Bitmap(imageSize * multy, imageSize * multy);
-            IntPtr ptr = zoomBitmap.GetHbitmap();
-            Image im = Image.FromHbitmap(ptr);
-            Graphics g = Graphics.FromImage(im);
-
-
-            for (int i = 0; i < imageSize; i++)
-                for (int j = 0; j < imageSize; j++)
-                {
-                    brush.Color = originalBitmap.GetPixel(i, j);
-                    var rect = new Rectangle(0 + i * multy, 0 + j * multy, multy, multy);
-                    g.FillRectangle(brush, rect);
-                }
-
-            pictureBoxPreview.Tag = imageT;
-            pictureBoxPreview.Image = im;
-            g.Dispose();
-            GC.Collect();
-        }
-
-        private void toChessRangeToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Menus events
+        private void On_miToChessRange_Click(object sender, EventArgs e)
         {
             currentGrid.ImageToGrid(originalBitmap);
             Controls.Remove(currentGrid);
@@ -78,7 +81,7 @@ namespace MPO.UI
             GridToImageToolStripMenuItem_Click(this, null);
         }
 
-        private void buildHistogrammToolStripMenuItem_Click(object sender, EventArgs e)
+        private void On_miBuildHistogramm_Click(object sender, EventArgs e)
         {
             var imageT = (imageType)pictureBoxPreview.Tag;
             if (imageT == imageType.tone)
@@ -93,7 +96,7 @@ namespace MPO.UI
             }
         }
 
-        private void contextMenuStripToChessRange_Opening(object sender, CancelEventArgs e)
+        private void On_miToChessRange_Opening(object sender, CancelEventArgs e)
         {
             if (pictureBoxPreview.Tag == null)
             {
@@ -129,10 +132,10 @@ namespace MPO.UI
             }
         }
 
-        private void primitiveLengthToolStripMenuItem_Click(object sender, EventArgs e)
+        private void On_miPrimitiveLength_Click(object sender, EventArgs e)
         {
             imageSize = 20;
-            toChessRangeToolStripMenuItem_Click(sender, e);
+            On_miToChessRange_Click(sender, e);
             if (CompareTexturesForm == null)
             {
                 CompareTexturesForm = new TexturesComparison(pictureBoxPreview.Image, currentGrid);
@@ -146,6 +149,100 @@ namespace MPO.UI
             imageSize = 50;
         }
 
+        private void On_miZondMethod_Click(object sender, EventArgs e)
+        {
+            var zondForm = new ZondForm();
+            zondForm.ShowDialog();
+        }
+
+        private void On_miCheckZongeSun_Click(object sender, EventArgs e)
+        {
+            currentGrid.ImageToGrid(originalBitmap);
+            Controls.Remove(currentGrid);
+            currentGrid = ((MonoGrid)currentGrid).CheckZongeSun(this);
+            Controls.Add(currentGrid);
+            pictureBoxPreview.Tag = imageType.mono;
+            GridToImageToolStripMenuItem_Click(this, null);
+        }
+
+        private void On_miShowNeighboursMatrix_Click(object sender, EventArgs e)
+        {
+            var kvazar = new KvaziTopologicMethod(GetAuxiliaryArray(currentGrid));
+            //ApplyMatrixToGrid(kvazar.NeighboursMatrix));
+            //ApplyMatrixToGrid(kvazar.MultipliesMatrix);
+            ApplyMatrixToGrid(kvazar.SwitchesMatrix);
+
+            symbolRecognizedByKvazar = kvazar.RecognizedSymbol;
+
+            var keys = new StringBuilder();
+
+            foreach (var key in kvazar.RecognizedSymbol.Keys)
+            {
+                keys.Append(String.Format("{0}, ", key));
+            }
+
+            // keys.Replace(", ", "", keys.Length - 4, 3);
+
+            MessageBox.Show(String.Format("Keys of the current symbol or pattern are: \n {0}", keys),
+                "Keys of the current symbol or pattern.",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            miRecognizeLetter.Enabled = true;
+        }
+
+        private void On_miRecognizeLetter_Click(object sender, EventArgs e)
+        {
+            if (symbolRecognizedByKvazar == null)
+                throw new ArgumentException("Symbol was not recognized by Kvazar");
+
+            var Ц = new Symbol { Keys = new List<int> { 1, 3, 1, 1 }, Name = "Ц" };
+            var K = new Symbol { Keys = new List<int> { 1, 1, 3, 3, 1, 1 }, Name = "К" };
+            var Семь = new Symbol { Keys = new List<int> { 1, 1, 1, 3, 1, 1 }, Name = "7" };
+
+            var supportedSymbols = new List<Symbol> { Ц, K, Семь };
+
+            foreach (var symbol in supportedSymbols)
+            {
+                if (0 != symbolRecognizedByKvazar.CompareTo(symbol))
+                    continue;
+                MessageBox.Show(String.Format("Recognized symbol is \"{0}\"", symbol.Name));
+                return;
+            }
+            MessageBox.Show("Symbol is not recognized.");
+        }
+
+        private void On_miEnterFilter_Click(object sender, EventArgs e)
+        {
+            var filterDialog = new FilterForm();
+            var dlgResult = filterDialog.ShowDialog();
+            var filter = filterDialog.Filter;
+
+            if (dlgResult == DialogResult.Yes)
+            {
+                //AuxiliaryArray = GetAuxiliaryArray(currentGrid);
+                ApplyFilterToCurrentGrid(filter);
+                AuxiliaryArray = GetAuxiliaryArray(currentGrid);
+                histogramm.grid = currentGrid;
+                histogramm.DrawHistogramm();
+                GridToImageToolStripMenuItem_Click(this, null);
+            }
+            if (dlgResult == DialogResult.No)
+            {
+                MessageBox.Show("You've DISAGREED!");
+            }
+        }
+
+        private void On_miApplyMedianFilter_Click(object sender, EventArgs e)
+        {
+            ApplyMedianFilteringToCurrentGrid();
+            histogramm.grid = currentGrid;
+            histogramm.DrawHistogramm();
+            AuxiliaryArray = GetAuxiliaryArray(currentGrid);
+            GridToImageToolStripMenuItem_Click(this, null);
+        }
+        #endregion
+
+        #region Angle diagram events
         private void OnLiniarScaling(object sender, EventArgs e)
         {
             ApplyScaleToGrid();
@@ -153,25 +250,7 @@ namespace MPO.UI
             histogramm.grid = currentGrid;
             histogramm.DrawHistogramm();
         }
-
-        public void ApplyScaleToGrid()
-        {
-            var height = currentGrid.Rows.Count;
-            var width = currentGrid.Columns.Count;
-            for (var i = 0; i < height; i++)
-            {
-                for (var j = 0; j < width; j++)
-                {
-                    var k = Math.Tan(angleDiagramm.Angle * Math.PI / 180);
-                    var oldValue = (double)AuxiliaryArray[i, j];
-                    var newValue = (int)(oldValue * k);
-
-                    if (newValue > 255)
-                        newValue = 255;
-                    currentGrid[i, j].Value = newValue;
-                }
-            }
-        }
+        #endregion
 
         #region ActivateMainMenu
 
@@ -189,6 +268,7 @@ namespace MPO.UI
                     saveAsToolStripMenuItem.Enabled = activate;
                     saveToolStripMenuItem.Enabled = activate;
                     imageToolStripMenuItem.Enabled = activate;
+                    miRecognizeLetter.Enabled = false;
                     break;
                 case state.grid:
                     gridToolStripMenuItem.Enabled = activate;
@@ -198,13 +278,10 @@ namespace MPO.UI
 
         #endregion
 
-        #region MainMenu
+        #region Main menu
 
         private void LoadFileDialog(imageType imageT)
         {
-            Color c = Color.RoyalBlue;
-
-
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (openFileDialog1.FileName != null)
@@ -255,15 +332,6 @@ namespace MPO.UI
             panelImages.Controls.Add(label);
         }
 
-        private string GetShortFileName(string path)
-        {
-            char[] slash = { '\\' };
-            string[] directories = path.Split(slash);
-            string filename = directories[directories.Length - 1];
-            filename = filename.Remove(filename.IndexOf("."));
-            return filename;
-        }
-
         private void monoPictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadFileDialog(imageType.mono);
@@ -279,10 +347,7 @@ namespace MPO.UI
             LoadFileDialog(imageType.colored);
         }
 
-        private int GetNumberOfPictures()
-        {
-            return panelImages.Controls.Count / 2;
-        }
+
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -361,7 +426,6 @@ namespace MPO.UI
         #endregion
 
         #region Image ToGrid-BackToImage
-
         private void ImageToMono()
         {
             currentGrid = new MonoGrid(imageSize, imageSize);
@@ -372,6 +436,7 @@ namespace MPO.UI
         private void ImageToHalfTone(object sender, EventArgs e)
         {
             var imageT = (imageType)pictureBoxPreview.Tag;
+
             if (imageT == imageType.tone)
             {
                 currentGrid = new HalfToneGridView(imageSize, imageSize, this);
@@ -384,6 +449,7 @@ namespace MPO.UI
                 histogramm.grid = currentGrid;
                 histogramm.DrawHistogramm();
             }
+
             if (imageT == imageType.mono)
             {
                 //make half tone from mono
@@ -420,14 +486,12 @@ namespace MPO.UI
             return auxiliaruArray;
         }
 
-
         private void ImageToColoredGrid()
         {
             currentGrid = new ColoredGrid(imageSize, this);
             Controls.Add(currentGrid);
             currentGrid.ImageToGrid(originalBitmap);
         }
-
         #endregion
 
         #region ImagePanel
@@ -515,7 +579,7 @@ namespace MPO.UI
 
         #endregion
 
-        #region Nested type: imageType
+        #region Nested types
 
         private enum imageType
         {
@@ -524,10 +588,6 @@ namespace MPO.UI
             tone,
             colored
         } ;
-
-        #endregion
-
-        #region Nested type: state
 
         private enum state
         {
@@ -538,41 +598,32 @@ namespace MPO.UI
 
         #endregion
 
-        private void OnFilterClick(object sender, EventArgs e)
+        #region Actions with grid
+        private void ApplyMatrixToGrid(int[,] newState)
         {
-            var filterDialog = new FilterForm();
-            var dlgResult = filterDialog.ShowDialog();
-            var filter = filterDialog.Filter;
-
-            if (dlgResult == DialogResult.Yes)
+            for (var i = 0; i < newState.GetLength(0); i++)
             {
-                //AuxiliaryArray = GetAuxiliaryArray(currentGrid);
-                ApplyFilterToCurrentGrid(filter);
-                AuxiliaryArray = GetAuxiliaryArray(currentGrid);
-                histogramm.grid = currentGrid;
-                histogramm.DrawHistogramm();
-                GridToImageToolStripMenuItem_Click(this, null);
-            }
-            if (dlgResult == DialogResult.No)
-            {
-                MessageBox.Show("You've DISAGREED!");
+                for (var j = 0; j < newState.GetLength(1); j++)
+                {
+                    currentGrid[i, j].Value = newState[i, j];
+                }
             }
         }
 
-        private void ApplyFilterToCurrentGrid(int[,] filter)
+        public void ApplyScaleToGrid()
         {
             var height = currentGrid.Rows.Count;
             var width = currentGrid.Columns.Count;
-            var extendedMatrix = GetExtendedMatrixFromCurrentGrid();
-
             for (var i = 0; i < height; i++)
             {
                 for (var j = 0; j < width; j++)
                 {
-                    if (extendedMatrix[i + 1, j + 1] == 1)
-                        continue;
-                    var newValue = GetCellValueAccordingFilter(filter, extendedMatrix, i, j);
+                    var k = Math.Tan(angleDiagramm.Angle * Math.PI / 180);
+                    var oldValue = (double)AuxiliaryArray[i, j];
+                    var newValue = (int)(oldValue * k);
 
+                    if (newValue > 255)
+                        newValue = 255;
                     currentGrid[i, j].Value = newValue;
                 }
             }
@@ -597,24 +648,61 @@ namespace MPO.UI
             }
         }
 
-        private void GenerateNeighbourGrid()
+        private void ApplyFilterToCurrentGrid(int[,] filter)
         {
             var height = currentGrid.Rows.Count;
             var width = currentGrid.Columns.Count;
-
-            var auxiliaryMatrix = GetAuxiliaryArray(currentGrid);
+            var extendedMatrix = GetExtendedMatrixFromCurrentGrid();
 
             for (var i = 0; i < height; i++)
             {
                 for (var j = 0; j < width; j++)
                 {
-                    if (auxiliaryMatrix[i, j] == 1)
-                        currentGrid[i, j].Value = GetNeighboursNumber(auxiliaryMatrix, i, j);
-                    else
-                        currentGrid[i, j].Value = String.Empty;
+                    if (extendedMatrix[i + 1, j + 1] == 1)
+                        continue;
+                    var newValue = GetCellValueAccordingFilter(filter, extendedMatrix, i, j);
+
+                    currentGrid[i, j].Value = newValue;
                 }
             }
         }
+
+        private int[,] GetExtendedMatrixFromCurrentGrid()
+        {
+            var width = currentGrid.Columns.Count;
+            var height = currentGrid.Rows.Count;
+
+            var extendedMatrix = new int[height + 2, width + 2];
+
+            for (var i = 1; i < height + 1; i++)
+            {
+                for (var j = 1; j < width + 1; j++)
+                {
+                    extendedMatrix[i, j] = int.Parse(currentGrid[i - 1, j - 1].Value.ToString());
+                }
+            }
+            for (var i = 1; i < width + 1; i++)
+            {
+                extendedMatrix[0, i] = int.Parse(currentGrid[0, i - 1].Value.ToString());
+                extendedMatrix[height + 1, i] = int.Parse(currentGrid[height - 1, i - 1].Value.ToString());
+            }
+
+            for (var i = 1; i < height + 1; i++)
+            {
+                extendedMatrix[i, 0] = int.Parse(currentGrid[i - 1, 0].Value.ToString());
+                extendedMatrix[i, width + 1] = int.Parse(currentGrid[i - 1, width - 1].Value.ToString());
+            }
+
+            extendedMatrix[0, 0] = int.Parse(currentGrid[0, 0].Value.ToString());
+            extendedMatrix[height + 1, width + 1] = int.Parse(currentGrid[height - 1, width - 1].Value.ToString());
+            extendedMatrix[0, width + 1] = int.Parse(currentGrid[0, width - 1].Value.ToString());
+            extendedMatrix[height + 1, 0] = int.Parse(currentGrid[height - 1, 0].Value.ToString());
+
+            return extendedMatrix;
+        }
+        #endregion
+
+        #region Auxiliary methods
 
         private static int GetMedianValue(int[,] extendedMatrix, int currI, int currJ)
         {
@@ -685,188 +773,45 @@ namespace MPO.UI
             return extendedMatrix[currI + 1, currJ + 1];
         }
 
-        private int[,] GetExtendedMatrixFromCurrentGrid()
+        private void ZoomOriginalBitmap(imageType imageT)
         {
-            var width = currentGrid.Columns.Count;
-            var height = currentGrid.Rows.Count;
+            var color = new Color();
+            var brush = new SolidBrush(color);
+            int multy = 5;
+            // todo suspend memory leak here
+            var zoomBitmap = new Bitmap(imageSize * multy, imageSize * multy);
+            IntPtr ptr = zoomBitmap.GetHbitmap();
+            Image im = Image.FromHbitmap(ptr);
+            Graphics g = Graphics.FromImage(im);
 
-            var extendedMatrix = new int[height + 2, width + 2];
 
-            for (var i = 1; i < height + 1; i++)
-            {
-                for (var j = 1; j < width + 1; j++)
+            for (int i = 0; i < imageSize; i++)
+                for (int j = 0; j < imageSize; j++)
                 {
-                    extendedMatrix[i, j] = int.Parse(currentGrid[i - 1, j - 1].Value.ToString());
+                    brush.Color = originalBitmap.GetPixel(i, j);
+                    var rect = new Rectangle(0 + i * multy, 0 + j * multy, multy, multy);
+                    g.FillRectangle(brush, rect);
                 }
-            }
-            for (var i = 1; i < width + 1; i++)
-            {
-                extendedMatrix[0, i] = int.Parse(currentGrid[0, i - 1].Value.ToString());
-                extendedMatrix[height + 1, i] = int.Parse(currentGrid[height - 1, i - 1].Value.ToString());
-            }
 
-            for (var i = 1; i < height + 1; i++)
-            {
-                extendedMatrix[i, 0] = int.Parse(currentGrid[i - 1, 0].Value.ToString());
-                extendedMatrix[i, width + 1] = int.Parse(currentGrid[i - 1, width - 1].Value.ToString());
-            }
-
-            extendedMatrix[0, 0] = int.Parse(currentGrid[0, 0].Value.ToString());
-            extendedMatrix[height + 1, width + 1] = int.Parse(currentGrid[height - 1, width - 1].Value.ToString());
-            extendedMatrix[0, width + 1] = int.Parse(currentGrid[0, width - 1].Value.ToString());
-            extendedMatrix[height + 1, 0] = int.Parse(currentGrid[height - 1, 0].Value.ToString());
-
-            return extendedMatrix;
+            pictureBoxPreview.Tag = imageT;
+            pictureBoxPreview.Image = im;
+            g.Dispose();
+            GC.Collect();
         }
 
-        private void OnApplyMedianFilter(object sender, EventArgs e)
+        private string GetShortFileName(string path)
         {
-            ApplyMedianFilteringToCurrentGrid();
-            histogramm.grid = currentGrid;
-            histogramm.DrawHistogramm();
-            AuxiliaryArray = GetAuxiliaryArray(currentGrid);
-            GridToImageToolStripMenuItem_Click(this, null);
+            char[] slash = { '\\' };
+            string[] directories = path.Split(slash);
+            string filename = directories[directories.Length - 1];
+            filename = filename.Remove(filename.IndexOf("."));
+            return filename;
         }
 
-        private void On_miZondMethod_Click(object sender, EventArgs e)
+        private int GetNumberOfPictures()
         {
-            ZondForm zondForm = new ZondForm();
-            zondForm.Show();
+            return panelImages.Controls.Count / 2;
         }
-
-        private void On_miCheckZongeSun_Click(object sender, EventArgs e)
-        {
-            currentGrid.ImageToGrid(originalBitmap);
-            Controls.Remove(currentGrid);
-            currentGrid = ((MonoGrid)currentGrid).CheckZongeSun(this);
-            Controls.Add(currentGrid);
-            pictureBoxPreview.Tag = imageType.mono;
-            GridToImageToolStripMenuItem_Click(this, null);
-        }
-
-        private void On_miShowNeighboursMatrix_Click(object sender, EventArgs e)
-        {
-            GenerateNeighbourGrid();
-            //GridToImageToolStripMenuItem_Click(this, null);
-        }
+        #endregion
     }
 }
-
-//// 0 x
-//// 0 1                    
-//if (i < 0 && j > 0 && j < width)
-//{
-//    newValue += AuxiliaryArray[i + 1, j] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-
-//// 0 0 0
-//// x 1 1
-//// x 1 1
-//if (j < 0 && i > 0 && i < height)
-//{
-//    newValue += AuxiliaryArray[i, j + 1] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-//// 1 1 0
-//// 1 1 0
-//// x x 0
-//if (i >= height && j < width)
-//{
-//    newValue += AuxiliaryArray[i - 1, j] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-//// 1 1 x
-//// 1 1 x
-//// 0 0 0
-
-//if (j >= width && i < height && i >= 0)
-//{
-//    newValue += AuxiliaryArray[i, j - 1] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-//if (i < 0 && j < 0)
-//{
-//    newValue += AuxiliaryArray[i + 1, j + 1] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-//if (i >= height && j >= width)
-//{
-//    newValue += AuxiliaryArray[i - 1, j - 1] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-//if (i >= height && j < 0)
-//{
-//    newValue += AuxiliaryArray[i - 1, j + 1] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-//if (i < 0 && j >= width)
-//{
-//    newValue += AuxiliaryArray[i + 1, j - 1] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-
-
-//*****************************************
-
-//if (i < 0 || j < 0)
-//{
-//    newValue += AuxiliaryArray[i - i, j - j] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-
-
-//if (i >= height || j >= width)
-//{
-//    newValue += AuxiliaryArray[i + (i - height), j + (j - width)] * filter[ii, jj];
-//    significantItems += filter[ii, jj];
-//    jj++;
-//    continue;
-//}
-
-
-//private static int GetNeigboursAverageValueAccordingFilter(int[,] filter, int[,] extendedMatrix, int currI, int currJ)
-//{
-//    var newValue = 0;
-//    var ii = 0;
-//    var jj = 0;
-//    var significantItems = 0;
-
-//    for (var i = currI - 1; i <= currI + 1; i++)
-//    {
-//        for (var j = currJ - 1; j <= currJ + 1; j++)
-//        {
-//            if (filter[ii, jj] == 0)
-//            {
-//                jj++;
-//                continue;
-//            }
-//            newValue += extendedMatrix[i + 1, j + 1] * filter[ii, jj];
-//            significantItems += filter[ii, jj];
-//            jj++;
-//        }
-//        ii++;
-//        jj = 0;
-//    }
-
-//    if (significantItems == 0) return extendedMatrix[currI + 1, currJ + 1];
-//    return newValue / significantItems;
-//}
