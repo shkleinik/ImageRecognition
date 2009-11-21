@@ -63,11 +63,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BisnessLogic\IntersectionsAnalyzer.cs" />
-    <Compile Include="BisnessLogic\KvaziTopologicMethod.cs" />
-    <Compile Include="BisnessLogic\Symbol.cs" />
-    <Compile Include="BisnessLogic\ZondDraw.cs" />
-    <Compile Include="BisnessLogic\ZongeSyn.cs" />
+    <Compile Include="BusinessLogic\IntersectionsAnalyzer.cs" />
+    <Compile Include="BusinessLogic\KvaziTopologicMethod.cs" />
+    <Compile Include="BusinessLogic\Symbol.cs" />
+    <Compile Include="BusinessLogic\ZondDraw.cs" />
+    <Compile Include="BusinessLogic\ZongeSyn.cs" />
     <Compile Include="Controls\AngleDiagramm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -99,7 +99,7 @@
     <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="BisnessLogic\GridToChessClass.cs" />
+    <Compile Include="BusinessLogic\GridToChessClass.cs" />
     <Compile Include="Grids\HalfToneGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -124,9 +124,9 @@
     <Compile Include="Grids\MonoGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="BisnessLogic\MyGrid.cs" />
-    <Compile Include="BisnessLogic\PrimitiveColorLength.cs" />
-    <Compile Include="BisnessLogic\PrimitiveLength.cs" />
+    <Compile Include="BusinessLogic\MyGrid.cs" />
+    <Compile Include="BusinessLogic\PrimitiveColorLength.cs" />
+    <Compile Include="BusinessLogic\PrimitiveLength.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\AngleDiagramm.resx">

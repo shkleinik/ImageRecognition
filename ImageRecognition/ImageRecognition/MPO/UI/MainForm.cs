@@ -63,6 +63,7 @@ namespace MPO.UI
             LoadPicture(@"TestImages\7_0.bmp", imageType.mono);
             LoadPicture(@"TestImages\7_2.bmp", imageType.mono);
             LoadPicture(@"TestImages\Ï.bmp", imageType.mono);
+            LoadPicture(@"TestImages\Blank.bmp", imageType.mono);
 #endif
         }
         #endregion
@@ -165,9 +166,9 @@ namespace MPO.UI
         private void On_miShowNeighboursMatrix_Click(object sender, EventArgs e)
         {
             var kvazar = new KvaziTopologicMethod(GetAuxiliaryArray(currentGrid));
-            //ApplyMatrixToGrid(kvazar.NeighboursMatrix));
+            ApplyMatrixToGrid(kvazar.NeighboursMatrix);
             //ApplyMatrixToGrid(kvazar.MultipliesMatrix);
-            ApplyMatrixToGrid(kvazar.SwitchesMatrix);
+            //ApplyMatrixToGrid(kvazar.SwitchesMatrix);
 
             symbolRecognizedByKvazar = kvazar.RecognizedSymbol;
 
